@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  <url>
+    <loc>https://shiestyvr.com/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image><image:loc>https://shiestyvr.com/assets/img/shiesty-key-art.jpg</image:loc></image:image>
+    <image:image><image:loc>https://shiestyvr.com/assets/img/bakery-robbery.webp</image:loc></image:image>
+    <image:image><image:loc>https://shiestyvr.com/assets/img/driving.webp</image:loc></image:image>
+    <image:image><image:loc>https://shiestyvr.com/assets/img/shootout.webp</image:loc></image:image>
+    <image:image><image:loc>https://shiestyvr.com/assets/img/crimelord.webp</image:loc></image:image>
+    <video:video>
+      <video:thumbnail_loc>https://shiestyvr.com/assets/img/trailer-poster.jpg</video:thumbnail_loc>
+      <video:title>Shiesty VR – Official Trailer</video:title>
+      <video:description>Gameplay trailer for Shiesty, the free open-world crime game on Meta Quest, made entirely by Claude.</video:description>
+      <video:content_loc>https://shiestyvr.com/assets/video/shiesty-trailer.mp4</video:content_loc>
+      <video:duration>64</video:duration>
+    </video:video>
+  </url>
+</urlset>

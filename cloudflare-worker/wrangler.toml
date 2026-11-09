@@ -1,0 +1,15 @@
+name = "shiesty-views"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+
+[vars]
+# Sites allowed to add views. Add your local preview origin while testing.
+ALLOWED_ORIGINS = "https://shiestyvr.com,https://www.shiestyvr.com"
+
+[[durable_objects.bindings]]
+name = "COUNTER"
+class_name = "ViewCounter"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["ViewCounter"]
