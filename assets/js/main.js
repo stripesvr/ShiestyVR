@@ -44,3 +44,55 @@
     })(start);
   }
 })();
+
+// Trailer: big play button over the poster
+(function () {
+  var video = document.getElementById("trailer-video");
+  var btn = document.querySelector(".video__play");
+  if (!video || !btn) return;
+  btn.addEventListener("click", function () {
+    video.parentElement.classList.add("is-playing");
+    video.controls = true;
+    var p = video.play();
+    if (p && p.catch) p.catch(function () {});
+    video.focus();
+  });
+})();
+
+// Screenshots: open full size in a pop-up
+(function () {
+  var box = document.getElementById("lightbox");
+  if (!box || typeof box.showModal !== "function") return; // old browsers just follow the link
+  var img = box.querySelector("img");
+  document.querySelectorAll("[data-lightbox]").forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      var thumb = a.querySelector("img");
+      img.src = a.getAttribute("href");
+      img.alt = thumb ? thumb.alt : "";
+      box.showModal();
+    });
+  });
+  box.querySelector(".lightbox__close").addEventListener("click", function () { box.close(); });
+  box.addEventListener("click", function (e) { if (e.target === box) box.close(); });
+})();
+
+// Fade sections in as they scroll into view
+(function () {
+  var items = document.querySelectorAll(".reveal");
+  if (!("IntersectionObserver" in window)) {
+    items.forEach(function (el) { el.classList.add("is-in"); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      var siblings = Array.prototype.filter.call(el.parentElement.children, function (c) { return c.classList.contains("reveal"); });
+      el.style.transitionDelay = Math.min(siblings.indexOf(el), 5) * 70 + "ms";
+      el.classList.add("is-in");
+      io.unobserve(el);
+    });
+  }, { rootMargin: "0px 0px -8% 0px" });
+  items.forEach(function (el) { io.observe(el); });
+})();
