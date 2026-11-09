@@ -1,4 +1,5 @@
 // Shiesty VR – site scripts ✨
+window.SHIESTY_READY = true;
 var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 var FINE_POINTER = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
