@@ -44,7 +44,7 @@
   <!-- Fonts & styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Rubik:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Lilita+One&family=Rubik:wght@400;500;700&display=swap">
   <link rel="preload" as="image" href="/assets/img/shiesty-key-art.webp" fetchpriority="high">
   <link rel="stylesheet" href="/assets/css/style.css">
   <script>document.documentElement.classList.add("js")</script>
@@ -146,6 +146,17 @@
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
+  <div class="progress" aria-hidden="true"></div>
+
+  <!-- Ambient background: glowing blobs, grid and grain -->
+  <div class="bg" aria-hidden="true">
+    <span class="blob blob--pink"></span>
+    <span class="blob blob--orange"></span>
+    <span class="blob blob--lime"></span>
+    <span class="blob blob--sky"></span>
+    <span class="bg__grid"></span>
+    <span class="bg__grain"></span>
+  </div>
 
   <header class="nav">
     <div class="nav__inner">
@@ -155,24 +166,36 @@
       <nav class="nav__links" aria-label="Main">
         <a href="#trailer">Trailer</a>
         <a href="#features">Features</a>
+        <a href="#vibes">Vibes</a>
         <a href="#screens">Screens</a>
-        <a href="#studio">Studio</a>
         <a href="#faq">FAQ</a>
       </nav>
-      <a class="btn btn--small" href="https://www.meta.com/experiences/shiesty/23961251736801166/" target="_blank" rel="noopener">Play free</a>
+      <a class="btn btn--small" data-confetti href="https://www.meta.com/experiences/shiesty/23961251736801166/" target="_blank" rel="noopener">Play free</a>
     </div>
   </header>
 
   <main id="main">
     <!-- ================= HERO ================= -->
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="hero__media" aria-hidden="true">
+        <video class="hero__video" autoplay muted loop playsinline preload="auto" poster="/assets/img/hero-loop-poster.jpg">
+          <source src="/assets/video/hero-loop.webm" type="video/webm">
+          <source src="/assets/video/hero-loop.mp4" type="video/mp4">
+        </video>
+      </div>
+
       <div class="wrap hero__inner">
-        <p class="chip"><span class="chip__dot" aria-hidden="true"></span>Out now · Free on Meta Quest</p>
+        <a class="pill" href="#vibes">
+          <span class="pill__new">NEW</span>
+          <span>Vibecoded with Claude<span class="pill__more"> · Free on Meta Quest</span></span>
+          <span aria-hidden="true">→</span>
+        </a>
 
         <h1 id="hero-title" class="hero__title">
+          <svg class="sparkle sparkle--a" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 0c.9 6.6 5.4 11.1 12 12-6.6.9-11.1 5.4-12 12-.9-6.6-5.4-11.1-12-12C6.6 11.1 11.1 6.6 12 0Z"/></svg>
           Welcome to <span class="hl-lime">Shiesty</span>, our VR game
-          <span class="hl-claude">made entirely by Claude</span>
+          <span class="shimmer">made entirely by Claude</span>
+          <svg class="sparkle sparkle--b" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 0c.9 6.6 5.4 11.1 12 12-6.6.9-11.1 5.4-12 12-.9-6.6-5.4-11.1-12-12C6.6 11.1 11.1 6.6 12 0Z"/></svg>
         </h1>
 
         <p class="hero__lede">
@@ -181,7 +204,7 @@
         </p>
 
         <div class="hero__ctas">
-          <a class="btn" href="https://www.meta.com/experiences/shiesty/23961251736801166/" target="_blank" rel="noopener">
+          <a class="btn btn--glow" data-confetti href="https://www.meta.com/experiences/shiesty/23961251736801166/" target="_blank" rel="noopener">
             <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M3 8.5A3.5 3.5 0 0 1 6.5 5h11A3.5 3.5 0 0 1 21 8.5v5a3.5 3.5 0 0 1-3.5 3.5h-2.2a2 2 0 0 1-1.7-.95l-.9-1.45a.8.8 0 0 0-1.4 0l-.9 1.45A2 2 0 0 1 8.7 17H6.5A3.5 3.5 0 0 1 3 13.5v-5Zm4.5 1a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/></svg>
             Play free on Meta Quest
           </a>
@@ -191,36 +214,54 @@
           </a>
         </div>
 
-        <figure class="keyart">
-          <img src="/assets/img/shiesty-key-art.webp" width="720" height="405" fetchpriority="high"
-               alt="Shiesty key art: a raccoon crook in a yellow mask with a pistol, a cop, a pink getaway truck chased by police, diamonds, cash and a sunset city with a ferris wheel">
-        </figure>
+        <div class="keyart-wrap">
+          <span class="floater floater--1" aria-hidden="true">🍩</span>
+          <span class="floater floater--2" aria-hidden="true">💸</span>
+          <span class="floater floater--3" aria-hidden="true">🚓</span>
+          <span class="floater floater--4" aria-hidden="true">💎</span>
+          <span class="floater floater--5" aria-hidden="true">🦝</span>
+          <figure class="keyart" data-tilt>
+            <img src="/assets/img/shiesty-key-art.webp" width="720" height="405" fetchpriority="high"
+                 alt="Shiesty key art: a raccoon crook in a yellow mask with a pistol, a cop, a pink getaway truck chased by police, diamonds, cash and a sunset city with a ferris wheel">
+          </figure>
+          <span class="burst" aria-hidden="true"><span>FREE<br>TO PLAY!</span></span>
+        </div>
       </div>
     </section>
 
-    <!-- ================= TICKER ================= -->
-    <div class="ticker" aria-hidden="true">
-      <div class="ticker__track">
-        <span>Rob the bakery</span><i>★</i><span>Steal the ride</span><i>★</i><span>Lose the cops</span><i>★</i><span>Pay the Crimelord</span><i>★</i><span>Hit the bank</span><i>★</i><span>Bring the crew</span><i>★</i>
-        <span>Rob the bakery</span><i>★</i><span>Steal the ride</span><i>★</i><span>Lose the cops</span><i>★</i><span>Pay the Crimelord</span><i>★</i><span>Hit the bank</span><i>★</i><span>Bring the crew</span><i>★</i>
+    <!-- ================= CROSSED TAPES ================= -->
+    <div class="tapes" aria-hidden="true">
+      <div class="tape tape--pink">
+        <div class="tape__track">
+          <span>Vibecoded</span><i>✦</i><span>Made by Claude</span><i>✦</i><span>Squido Studios</span><i>✦</i><span>Free on Quest</span><i>✦</i><span>Vibecoded</span><i>✦</i><span>Made by Claude</span><i>✦</i><span>Squido Studios</span><i>✦</i><span>Free on Quest</span><i>✦</i>
+          <span>Vibecoded</span><i>✦</i><span>Made by Claude</span><i>✦</i><span>Squido Studios</span><i>✦</i><span>Free on Quest</span><i>✦</i><span>Vibecoded</span><i>✦</i><span>Made by Claude</span><i>✦</i><span>Squido Studios</span><i>✦</i><span>Free on Quest</span><i>✦</i>
+        </div>
+      </div>
+      <div class="tape tape--lime">
+        <div class="tape__track">
+          <span>Rob the bakery</span><i>★</i><span>Steal the ride</span><i>★</i><span>Lose the cops</span><i>★</i><span>Pay the Crimelord</span><i>★</i><span>Hit the bank</span><i>★</i><span>Bring the crew</span><i>★</i>
+          <span>Rob the bakery</span><i>★</i><span>Steal the ride</span><i>★</i><span>Lose the cops</span><i>★</i><span>Pay the Crimelord</span><i>★</i><span>Hit the bank</span><i>★</i><span>Bring the crew</span><i>★</i>
+        </div>
       </div>
     </div>
 
     <!-- ================= QUICK FACTS ================= -->
     <section class="facts-section" aria-label="Quick facts">
       <dl class="wrap facts">
-        <div class="fact reveal"><dt>Price</dt><dd>Free to play</dd></div>
-        <div class="fact reveal"><dt>Headsets</dt><dd>Quest 2 · 3 · 3S · Pro</dd></div>
-        <div class="fact reveal"><dt>Players</dt><dd>Solo or online with friends</dd></div>
-        <div class="fact reveal"><dt>Made by</dt><dd>Claude, for Squido Studios</dd></div>
+        <div class="fact glass spot reveal"><span class="fact__icon" aria-hidden="true">🆓</span><dt>Price</dt><dd>Free to play</dd></div>
+        <div class="fact glass spot reveal"><span class="fact__icon" aria-hidden="true">🥽</span><dt>Headsets</dt><dd>Quest 2 · 3 · 3S · Pro</dd></div>
+        <div class="fact glass spot reveal"><span class="fact__icon" aria-hidden="true">🦝</span><dt>Players</dt><dd>Solo or online crew</dd></div>
+        <div class="fact glass spot reveal"><span class="fact__icon" aria-hidden="true">✨</span><dt>Made by</dt><dd>Claude × Squido</dd></div>
       </dl>
     </section>
 
     <!-- ================= TRAILER ================= -->
     <section id="trailer" class="section" aria-labelledby="trailer-title">
       <div class="wrap">
-        <p class="eyebrow">Official trailer</p>
-        <h2 id="trailer-title" class="section__title">See the hustle</h2>
+        <div class="head">
+          <p class="eyebrow"><span aria-hidden="true">▶</span> Official trailer</p>
+          <h2 id="trailer-title" class="section__title">See the <span class="shimmer">hustle</span></h2>
+        </div>
         <div class="video reveal">
           <video id="trailer-video" preload="none" playsinline poster="/assets/img/trailer-poster.jpg" width="1280" height="720">
             <source src="/assets/video/shiesty-trailer.mp4" type="video/mp4">
@@ -236,144 +277,197 @@
       </div>
     </section>
 
-    <!-- ================= FEATURES ================= -->
+    <!-- ================= FEATURES (BENTO) ================= -->
     <section id="features" class="section" aria-labelledby="features-title">
       <div class="wrap">
-        <p class="eyebrow">What you get up to</p>
-        <h2 id="features-title" class="section__title">A whole city to get shiesty in</h2>
-        <ul class="features">
-          <li class="feature reveal">
-            <span class="feature__icon" aria-hidden="true">💰</span>
-            <h3>Stick up every shop</h3>
-            <p>The bakery, the burger joint, the pawn shop. Walk in, point, and grab the cash out of the register with your own hands.</p>
-          </li>
-          <li class="feature reveal">
-            <span class="feature__icon" aria-hidden="true">🚗</span>
-            <h3>Steal any ride</h3>
-            <p>One hand on the wheel, one on your piece. Tear down the coast road with the cops right behind you.</p>
-          </li>
-          <li class="feature reveal">
-            <span class="feature__icon" aria-hidden="true">🚨</span>
-            <h3>Fight the heat</h3>
-            <p>Push your luck and the SWAT team rolls in. Shoot your way out, or get caught and do your time.</p>
-          </li>
-          <li class="feature reveal">
-            <span class="feature__icon" aria-hidden="true">👑</span>
-            <h3>Pay the Crimelord</h3>
-            <p>Stack your money and pay the boss to climb the ranks, all the way from level 1 to 10.</p>
-          </li>
-          <li class="feature reveal">
-            <span class="feature__icon" aria-hidden="true">🦝</span>
-            <h3>Bring your crew</h3>
-            <p>Play solo or team up with friends online. Plan the bank job together, or just cause chaos.</p>
-          </li>
-          <li class="feature reveal">
-            <span class="feature__icon" aria-hidden="true">🌅</span>
-            <h3>Free to play</h3>
-            <p>Download it free on the Meta Horizon Store for Quest 2, Quest 3, Quest 3S and Quest Pro.</p>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ================= SCREENSHOTS ================= -->
-    <section id="screens" class="section" aria-labelledby="screens-title">
-      <div class="wrap">
-        <p class="eyebrow">Screenshots</p>
-        <h2 id="screens-title" class="section__title">Straight from the headset</h2>
-        <div class="gallery">
-          <figure class="reveal">
-            <a href="/assets/img/bakery-robbery.webp" data-lightbox><img src="/assets/img/bakery-robbery.webp" width="800" height="450" loading="lazy" alt="Holding up a terrified baker at the counter, a donut in one hand and a pistol in the other"></a>
-            <figcaption>Robbing the bakery, donut in hand</figcaption>
-          </figure>
-          <figure class="reveal">
-            <a href="/assets/img/driving.webp" data-lightbox><img src="/assets/img/driving.webp" width="800" height="450" loading="lazy" alt="Driving a car down a palm-lined beach street at sunset, holding a pistol"></a>
-            <figcaption>Cruising the coast at sunset</figcaption>
-          </figure>
-          <figure class="reveal">
-            <a href="/assets/img/shootout.webp" data-lightbox><img src="/assets/img/shootout.webp" width="800" height="450" loading="lazy" alt="Shootout with armored SWAT officers outside a donut shop and pawn shop"></a>
-            <figcaption>The SWAT team shows up</figcaption>
-          </figure>
-          <figure class="reveal">
-            <a href="/assets/img/crimelord.webp" data-lightbox><img src="/assets/img/crimelord.webp" width="800" height="450" loading="lazy" alt="The Crimelord stage showing level 4 of 10 and a big Pay Up button"></a>
-            <figcaption>Pay the boss to level up</figcaption>
-          </figure>
+        <div class="head">
+          <p class="eyebrow"><span aria-hidden="true">✦</span> What you get up to</p>
+          <h2 id="features-title" class="section__title">A whole city to get <span class="shimmer">shiesty</span> in</h2>
+        </div>
+        <div class="bento">
+          <article class="tile tile--a spot reveal">
+            <img src="/assets/img/shots/cash-grab.webp" width="1280" height="720" loading="lazy" alt="Grabbing a stack of green cash out of a burger joint's register">
+            <div class="tile__body">
+              <span class="tile__tag">01</span>
+              <h3>Stick up every shop</h3>
+              <p>The bakery, the burger joint, the pawn shop. Walk in, point, and grab the cash out of the register with your own hands.</p>
+            </div>
+          </article>
+          <article class="tile tile--b spot reveal">
+            <img src="/assets/img/shots/raccoon-driver.webp" width="1280" height="720" loading="lazy" alt="A raccoon crook driving a getaway car through the city at sunset">
+            <div class="tile__body">
+              <span class="tile__tag">02</span>
+              <h3>Steal any ride</h3>
+              <p>One hand on the wheel, one on your piece.</p>
+            </div>
+          </article>
+          <article class="tile tile--c spot reveal">
+            <img src="/assets/img/shots/crimelord-boss.webp" width="1280" height="720" loading="lazy" alt="The Crimelord in a red tuxedo behind a desk piled with gold bars and cash">
+            <div class="tile__body">
+              <span class="tile__tag">03</span>
+              <h3>Pay the Crimelord</h3>
+              <p>Stack cash, pay the boss, climb levels 1 to 10.</p>
+            </div>
+          </article>
+          <article class="tile tile--d spot reveal">
+            <img src="/assets/img/shots/swat-duel.webp" width="1280" height="720" loading="lazy" alt="Dual-wielding pistols against a SWAT team in the street">
+            <div class="tile__body">
+              <span class="tile__tag">04</span>
+              <h3>Fight the heat</h3>
+              <p>Push your luck and SWAT rolls in.</p>
+            </div>
+          </article>
+          <article class="tile tile--e spot reveal">
+            <img src="/assets/img/shots/vault-crew.webp" width="1280" height="720" loading="lazy" alt="A crew of raccoon robbers inside a bank vault with a giant round vault door">
+            <div class="tile__body">
+              <span class="tile__tag">05</span>
+              <h3>Bring your crew</h3>
+              <p>Team up with friends online and plan the bank job together, or just cause chaos.</p>
+            </div>
+          </article>
+          <article class="tile tile--f spot reveal">
+            <img src="/assets/img/shots/police-chase.webp" width="1280" height="720" loading="lazy" alt="A getaway car speeding away with a police cruiser close behind">
+            <div class="tile__body">
+              <span class="tile__tag">06</span>
+              <h3>Lose the cops</h3>
+              <p>Floor it down the coast road with the sirens right behind you. Get caught and you’re doing time.</p>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- ================= STUDIO / MADE BY CLAUDE ================= -->
-    <section id="studio" class="section" aria-labelledby="studio-title">
-      <div class="wrap">
-        <div class="studio reveal">
-          <p class="eyebrow">How it was made</p>
+    <!-- ================= VIBES / STUDIO ================= -->
+    <section id="vibes" class="section" aria-labelledby="studio-title">
+      <div class="wrap vibes">
+        <div class="vibes__copy reveal">
+          <p class="eyebrow"><span aria-hidden="true">✻</span> How it was made</p>
           <h2 id="studio-title" class="studio__quote">
-            <span class="studio__mark" aria-hidden="true">“</span>Here at <span class="hl-lime">Squido Studios</span>, we <span class="hl-claude">vibecode</span> all of our games!
+            Here at <span class="hl-lime">Squido Studios</span>, we <span class="shimmer">vibecode</span> all of our games!
           </h2>
-          <p class="studio__text">Shiesty is our VR game made entirely by Claude, Anthropic’s AI. It’s a full open-world crime game, and you can download it free on Meta Quest today. Put on your headset and see for yourself.</p>
+          <p class="vibes__text">Shiesty is our VR game made entirely by Claude, Anthropic’s AI. It’s a full open-world crime game, and you can download it free on Meta Quest today. Put on your headset and see for yourself.</p>
+          <div class="meter" role="img" aria-label="Vibe meter: maxed out">
+            <div class="meter__top"><span>Vibe meter</span><span class="meter__val">MAX</span></div>
+            <div class="meter__bar"><span></span></div>
+          </div>
           <p class="studio__sig">— Squido Studios</p>
         </div>
+
+        <div class="term glass reveal" aria-label="A playful vibe-coding terminal">
+          <div class="term__bar">
+            <i></i><i></i><i></i>
+            <span>~/squido/shiesty — claude</span>
+          </div>
+          <pre class="term__body" data-terminal><span class="term__line"><span class="t-dim">~/squido/shiesty</span> <span class="t-pink">$</span> claude</span>
+<span class="term__line"><span class="t-lime">&gt;</span> <span data-type>make a VR game where you rob the bakery, steal cars, outrun the cops and pay the Crimelord</span></span>
+<span class="term__line t-orange">✻ Vibing…</span>
+<span class="term__line"><span class="t-lime">✓</span> Built a whole sunset city</span>
+<span class="term__line"><span class="t-lime">✓</span> Filled every register with cash</span>
+<span class="term__line"><span class="t-lime">✓</span> Called the cops <span class="t-dim">(they’re mad)</span></span>
+<span class="term__line"><span class="t-lime">✓</span> Sat the Crimelord on his throne</span>
+<span class="term__line"><span class="t-lime">✓</span> Added online multiplayer for the crew</span>
+<span class="term__line"><span class="t-lime">✓</span> Shipped to Meta Quest 🚀</span>
+<span class="term__line t-dim">Total vibes: immaculate<span class="caret" aria-hidden="true"></span></span></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SCREENSHOTS (STRIP) ================= -->
+    <section id="screens" class="section" aria-labelledby="screens-title">
+      <div class="wrap">
+        <div class="head head--row">
+          <div>
+            <p class="eyebrow"><span aria-hidden="true">◉</span> Screenshots</p>
+            <h2 id="screens-title" class="section__title">Straight from the <span class="shimmer">headset</span></h2>
+          </div>
+          <div class="strip__nav">
+            <button type="button" class="strip__btn" data-strip="-1" aria-label="Previous screenshots">←</button>
+            <button type="button" class="strip__btn" data-strip="1" aria-label="Next screenshots">→</button>
+          </div>
+        </div>
+      </div>
+      <div class="strip" tabindex="0" aria-label="Screenshots, scroll sideways">
+        <figure><a href="/assets/img/bakery-robbery.webp" data-lightbox><img src="/assets/img/bakery-robbery.webp" width="800" height="450" loading="lazy" alt="Holding up a terrified baker at the counter, a donut in one hand and a pistol in the other"></a><figcaption>Robbing the bakery, donut in hand</figcaption></figure>
+        <figure><a href="/assets/img/driving.webp" data-lightbox><img src="/assets/img/driving.webp" width="800" height="450" loading="lazy" alt="Driving a car down a palm-lined beach street at sunset, holding a pistol"></a><figcaption>Cruising the coast at sunset</figcaption></figure>
+        <figure><a href="/assets/img/shots/drive-by.webp" data-lightbox><img src="/assets/img/shots/drive-by.webp" width="1280" height="720" loading="lazy" alt="A raccoon firing from a speeding car while police chase behind"></a><figcaption>Shots fired from the getaway car</figcaption></figure>
+        <figure><a href="/assets/img/shootout.webp" data-lightbox><img src="/assets/img/shootout.webp" width="800" height="450" loading="lazy" alt="Shootout with armored SWAT officers outside a donut shop and pawn shop"></a><figcaption>The SWAT team shows up</figcaption></figure>
+        <figure><a href="/assets/img/shots/sniper.webp" data-lightbox><img src="/assets/img/shots/sniper.webp" width="1280" height="720" loading="lazy" alt="Aiming a sniper rifle over the city skyline from a rooftop"></a><figcaption>Overwatch from the rooftops</figcaption></figure>
+        <figure><a href="/assets/img/shots/bank-rooftop.webp" data-lightbox><img src="/assets/img/shots/bank-rooftop.webp" width="1280" height="720" loading="lazy" alt="Looking down at the bank from a rooftop next to a crewmate"></a><figcaption>Casing the bank</figcaption></figure>
+        <figure><a href="/assets/img/shots/multiplayer.webp" data-lightbox><img src="/assets/img/shots/multiplayer.webp" width="1280" height="720" loading="lazy" alt="Another online player with a raccoon tail and backpack sneaking past a shop window"></a><figcaption>Your crew, online</figcaption></figure>
+        <figure><a href="/assets/img/crimelord.webp" data-lightbox><img src="/assets/img/crimelord.webp" width="800" height="450" loading="lazy" alt="The Crimelord stage showing level 4 of 10 and a big Pay Up button"></a><figcaption>Pay the boss to level up</figcaption></figure>
       </div>
     </section>
 
     <!-- ================= HOW TO GET IT ================= -->
     <section id="get" class="section" aria-labelledby="get-title">
       <div class="wrap">
-        <p class="eyebrow">Get it free</p>
-        <h2 id="get-title" class="section__title">In the city in three steps</h2>
+        <div class="head">
+          <p class="eyebrow"><span aria-hidden="true">⬇</span> Get it free</p>
+          <h2 id="get-title" class="section__title">In the city in <span class="shimmer">three steps</span></h2>
+        </div>
         <ol class="steps">
-          <li class="step reveal">
+          <li class="step glass spot reveal">
             <span class="step__num" aria-hidden="true">1</span>
             <h3>Grab your Quest</h3>
             <p>Shiesty runs on Meta Quest 2, Quest 3, Quest 3S and Quest Pro.</p>
           </li>
-          <li class="step reveal">
+          <li class="step glass spot reveal">
             <span class="step__num" aria-hidden="true">2</span>
             <h3>Open the store</h3>
             <p>Search “Shiesty” in the Meta Horizon Store, or send it to your headset from the store page on your phone or computer.</p>
           </li>
-          <li class="step reveal">
+          <li class="step glass spot reveal">
             <span class="step__num" aria-hidden="true">3</span>
             <h3>Get shiesty</h3>
             <p>Download it free, call up your crew and hit the streets.</p>
           </li>
         </ol>
-        <div class="get__cta">
-          <a class="btn btn--big" href="https://www.meta.com/experiences/shiesty/23961251736801166/" target="_blank" rel="noopener">
-            <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M3 8.5A3.5 3.5 0 0 1 6.5 5h11A3.5 3.5 0 0 1 21 8.5v5a3.5 3.5 0 0 1-3.5 3.5h-2.2a2 2 0 0 1-1.7-.95l-.9-1.45a.8.8 0 0 0-1.4 0l-.9 1.45A2 2 0 0 1 8.7 17H6.5A3.5 3.5 0 0 1 3 13.5v-5Zm4.5 1a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/></svg>
-            Get Shiesty free
-          </a>
-        </div>
       </div>
     </section>
 
     <!-- ================= FAQ ================= -->
     <section id="faq" class="section" aria-labelledby="faq-title">
       <div class="wrap wrap--narrow">
-        <p class="eyebrow">FAQ</p>
-        <h2 id="faq-title" class="section__title">Questions</h2>
+        <div class="head head--center">
+          <p class="eyebrow"><span aria-hidden="true">?</span> FAQ</p>
+          <h2 id="faq-title" class="section__title">Questions</h2>
+        </div>
         <div class="faq">
-          <details open>
+          <details class="glass" open>
             <summary>What is Shiesty VR?</summary>
             <p>Shiesty is an open-world crime game for Meta Quest. You rob shops, steal cars, outrun the police and pay the Crimelord to level up. It’s our VR game made entirely by Claude.</p>
           </details>
-          <details>
+          <details class="glass">
             <summary>Is Shiesty free?</summary>
             <p>Yes. Shiesty is free to play. <a href="https://www.meta.com/experiences/shiesty/23961251736801166/" target="_blank" rel="noopener">Download it from the Meta Horizon Store</a>.</p>
           </details>
-          <details>
+          <details class="glass">
             <summary>Which headsets can play Shiesty?</summary>
             <p>Meta Quest 2, Meta Quest 3, Meta Quest 3S and Meta Quest Pro.</p>
           </details>
-          <details>
+          <details class="glass">
             <summary>Can I play with friends?</summary>
             <p>Yes. Play solo or team up with friends online.</p>
           </details>
-          <details>
+          <details class="glass">
             <summary>Who made Shiesty?</summary>
             <p>Squido Studios. Here at Squido Studios, we vibecode all of our games, and Shiesty was made entirely by Claude.</p>
           </details>
         </div>
+      </div>
+    </section>
+
+    <!-- ================= FINAL CTA ================= -->
+    <section class="final" aria-labelledby="final-title">
+      <img class="final__bg" src="/assets/img/shots/skyline.webp" width="1280" height="720" loading="lazy" alt="">
+      <div class="wrap final__inner reveal">
+        <img class="final__logo" src="/assets/img/shiesty-logo.webp" alt="Shiesty" width="617" height="303" loading="lazy">
+        <h2 id="final-title" class="final__title">The city’s waiting.</h2>
+        <p>Free on Meta Quest. Bring your crew.</p>
+        <a class="btn btn--big btn--glow" data-confetti href="https://www.meta.com/experiences/shiesty/23961251736801166/" target="_blank" rel="noopener">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M3 8.5A3.5 3.5 0 0 1 6.5 5h11A3.5 3.5 0 0 1 21 8.5v5a3.5 3.5 0 0 1-3.5 3.5h-2.2a2 2 0 0 1-1.7-.95l-.9-1.45a.8.8 0 0 0-1.4 0l-.9 1.45A2 2 0 0 1 8.7 17H6.5A3.5 3.5 0 0 1 3 13.5v-5Zm4.5 1a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/></svg>
+          Get Shiesty free
+        </a>
       </div>
     </section>
   </main>
@@ -381,16 +475,19 @@
   <footer class="footer">
     <div class="wrap footer__inner">
       <img src="/assets/img/shiesty-logo.webp" alt="Shiesty" width="617" height="303" loading="lazy" class="footer__logo">
-      <p>Here at Squido Studios, we vibecode all of our games!</p>
+      <p>Here at Squido Studios, we vibecode all of our games! ✨</p>
       <nav class="footer__links" aria-label="Footer">
         <a href="https://www.meta.com/experiences/shiesty/23961251736801166/" target="_blank" rel="noopener">Meta Horizon Store</a>
         <a href="#trailer">Trailer</a>
+        <a href="#features">Features</a>
         <a href="#faq">FAQ</a>
       </nav>
       <p class="footer__small">© <span id="year">2026</span> Squido Studios. Meta Quest is a trademark of Meta Platforms, Inc.</p>
       <p class="views" data-views hidden><strong data-views-count>0</strong> site views</p>
     </div>
   </footer>
+
+  <button class="vibe-btn" type="button" data-confetti aria-label="Turn up the vibes">✨ <span>vibes</span></button>
 
   <dialog class="lightbox" id="lightbox" aria-label="Screenshot">
     <button class="lightbox__close" type="button" aria-label="Close">×</button>
