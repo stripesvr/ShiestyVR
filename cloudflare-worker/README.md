@@ -38,7 +38,7 @@ You need a free Cloudflare account and Node.js installed.
    <meta name="shiesty-views-api" content="https://shiesty-views.YOUR-NAME.workers.dev">
    ```
 
-5. Commit and push. The view counter appears on the site under the buttons and in the footer.
+5. Commit and push. The view count appears in small text at the very bottom of the page.
 
 Until step 4 is done the counter is simply hidden, so the site never shows a broken number.
 
