@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Play Shiesty in your browser | Shiesty VR</title>
+<meta name="description" content="Play Shiesty in your browser with keyboard and mouse. No headset needed.">
+<link rel="canonical" href="https://shiestyvr.com/play/">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Rubik:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --bg:#120922; --surface:#241441; --line:rgba(255,255,255,.1); --ink:#fff7ec; --muted:#cfc1e4; --dim:#9a8cb3;
+    --lime:#e3f04c; --pink:#ff5fa2; --orange:#ff9b54; --outline:#1a0c2b;
+    --display:"Lilita One","Arial Black",system-ui,sans-serif;
+    --body:"Rubik",system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  * { box-sizing:border-box; }
+  html, body { margin:0; height:100%; background:var(--bg); color:var(--ink); overflow:hidden; font-family:var(--body); }
+  #unity-canvas { position:fixed; inset:0; width:100%; height:100%; display:block; background:#000; outline:none; }
+  #overlay { position:fixed; inset:0; z-index:10; overflow:auto; display:flex; padding:16px;
+    background:
+      linear-gradient(rgba(18,9,34,.82), rgba(18,9,34,.96)),
+      url("/assets/img/shiesty-key-art.webp") center / cover no-repeat, var(--bg); }
+  #overlay.hidden { display:none; }
+  .card { width:min(660px,100%); margin:auto; background:var(--surface); border:1px solid var(--line); border-radius:24px; padding:26px 28px 24px;
+    box-shadow:0 30px 80px -30px rgba(0,0,0,.8); }
+  .top { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:6px; }
+  .top img { width:150px; height:auto; display:block; }
+  .top a { color:var(--muted); font-size:14px; text-decoration:none; white-space:nowrap; }
+  .top a:hover { color:var(--lime); }
+  h1 { font-family:var(--display); font-weight:400; font-size:30px; line-height:1.1; margin:10px 0 4px; letter-spacing:.3px; }
+  h1 em { font-style:normal; color:var(--lime); }
+  .sub { color:var(--muted); font-size:15px; margin-bottom:20px; }
+  .bar { height:14px; background:var(--outline); border:1px solid var(--line); border-radius:99px; overflow:hidden; }
+  .bar > i { display:block; height:100%; width:0%; border-radius:99px; background:linear-gradient(90deg,var(--pink),var(--orange)); transition:width .25s ease; }
+  #status { margin:9px 0 20px; font-size:13.5px; color:var(--dim); min-height:19px; }
+  #status.err { color:#ff8f8f; white-space:pre-wrap; }
+  h2 { font-size:12px; text-transform:uppercase; letter-spacing:1.5px; color:var(--dim); margin:0 0 10px; font-weight:700; }
+  .keys { display:grid; grid-template-columns:auto 1fr; gap:7px 16px; font-size:14.5px; margin:0 0 22px; }
+  .keys b { font-weight:700; color:var(--lime); white-space:nowrap; }
+  button { width:100%; border:0; border-radius:16px; padding:15px; cursor:pointer; font-family:var(--display); font-size:21px; letter-spacing:.5px;
+    background:var(--lime); color:#1a1405; box-shadow:0 5px 0 #8f9a1d; }
+  button:active:not(:disabled) { transform:translateY(3px); box-shadow:0 2px 0 #8f9a1d; }
+  button:disabled { background:#3a2560; color:#8473a6; box-shadow:none; cursor:default; }
+  .note { margin-top:14px; font-size:12.5px; color:var(--dim); line-height:1.5; }
+  @media (max-width:540px) { .card { padding:20px; } h1 { font-size:25px; } .keys { font-size:13px; gap:6px 12px; } .top img { width:120px; } }
+</style>
+</head>
+<body>
+<canvas id="unity-canvas" tabindex="-1"></canvas>
+
+<div id="overlay">
+  <div class="card">
+    <div class="top">
+      <a href="/" aria-label="Shiesty VR home"><img src="/assets/img/shiesty-logo.webp" alt="Shiesty" width="617" height="303"></a>
+      <a href="/">&larr; Back to the site</a>
+    </div>
+    <h1>Play in your <em>browser</em></h1>
+    <div class="sub">Keyboard and mouse. No headset needed.</div>
+
+    <div class="bar"><i id="fill"></i></div>
+    <div id="status">Starting&hellip;</div>
+
+    <h2>Controls</h2>
+    <div class="keys">
+      <b>Mouse / WASD</b><span>Look and walk &middot; Shift sprint &middot; Space jump</span>
+      <b>Left click</b><span>Fire (empty hand: punch)</span>
+      <b>Right click</b><span>Grab / let go</span>
+      <b>G</b><span>Pick up or drop a gun &middot; 1 2 3 belt slots</span>
+      <b>E</b><span>Get in or out of a car (WASD drive, Space handbrake, H horn)</span>
+      <b>B / P</b><span>Backpack / phone</span>
+      <b>Tab or M</b><span>Menu &middot; F fly &middot; PgUp / PgDn change map</span>
+      <b>Esc</b><span>Free the mouse (click the game to grab it again)</span>
+    </div>
+
+    <button id="play" disabled>Loading&hellip;</button>
+    <div class="note">The first visit downloads about 320 MB; after that it starts from your browser's saved copy.
+      Works best in Chrome, Edge or Firefox on a desktop PC. Phones and tablets are not supported.</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var NAME = "ShiestyVR-Browser";
+  // The game data is split into parts because the site host caps single files at 100 MB. Bump BUILD when the files change.
+  var BUILD = "2026-11-11a";
+  var DATA_PARTS = 7, DATA_BYTES = 307175807;
+
+  var overlay = document.getElementById("overlay"), fill = document.getElementById("fill");
+  var status = document.getElementById("status"), play = document.getElementById("play");
+  var canvas = document.getElementById("unity-canvas");
+  var failed = false;
+
+  function fail(msg) { failed = true; status.className = "err"; status.textContent = msg; play.textContent = "Could not start"; play.disabled = true; }
+  function setBar(f) { fill.style.width = Math.max(0, Math.min(100, f * 100)).toFixed(1) + "%"; }
+  function mb(n) { return Math.round(n / 1048576); }
+
+  if (location.protocol === "file:") { fail("Browsers will not load the game straight from a file. Open it from the website."); return; }
+  if (!window.WebAssembly) { fail("This browser has no WebAssembly support."); return; }
+  if (!document.createElement("canvas").getContext("webgl2")) { fail("This browser or graphics driver has no WebGL 2 support."); return; }
+
+  // The game grabs the mouse as soon as it starts. Browsers refuse that until the player has clicked, and the refusal
+  // would reach Unity's loader as an unhandled error (an alert). Swallow it: the game re-grabs on the next click.
+  var nativeLock = canvas.requestPointerLock;
+  if (nativeLock) {
+    canvas.requestPointerLock = function () {
+      try {
+        var p = nativeLock.apply(canvas, arguments);
+        if (p && typeof p.catch === "function") p.catch(function () {});
+        return p;
+      } catch (e) { return undefined; }
+    };
+  }
+
+  // ---- game data: fetch the parts (kept in Cache Storage between visits), join them into one blob ----
+  var CACHE_NAME = "shiesty-play-" + BUILD;
+  var loaded = new Array(DATA_PARTS).fill(0);
+  function partUrl(i) { return "Build/" + NAME + ".data.part" + (i < 10 ? "0" + i : i) + "?v=" + BUILD; }
+  function onBytes() {
+    var sum = 0; for (var i = 0; i < loaded.length; i++) sum += loaded[i];
+    setBar(0.9 * sum / DATA_BYTES);
+    if (!failed) status.textContent = "Downloading the game… " + mb(sum) + " / " + mb(DATA_BYTES) + " MB";
+  }
+  function openCache() {
+    if (!window.caches) return Promise.resolve(null);
+    return caches.open(CACHE_NAME).then(function (c) {
+      // drop the saved copies of older builds
+      caches.keys().then(function (keys) { keys.forEach(function (k) { if (k.indexOf("shiesty-play-") === 0 && k !== CACHE_NAME) caches.delete(k); }); });
+      return c;
+    }).catch(function () { return null; });
+  }
+  function readAll(res, i) {
+    if (!res.body || !res.body.getReader) return res.arrayBuffer().then(function (b) { loaded[i] = b.byteLength; onBytes(); return new Uint8Array(b); });
+    var reader = res.body.getReader(), chunks = [], n = 0;
+    function pump() {
+      return reader.read().then(function (r) {
+        if (r.done) return new Blob(chunks);
+        chunks.push(r.value); n += r.value.byteLength; loaded[i] = n; onBytes();
+        return pump();
+      });
+    }
+    return pump();
+  }
+  function getPart(cache, i) {
+    var url = partUrl(i);
+    var hit = cache ? cache.match(url).catch(function () { return null; }) : Promise.resolve(null);
+    return hit.then(function (cached) {
+      if (cached) return cached.blob().then(function (b) { loaded[i] = b.size; onBytes(); return b; });
+      return fetch(url).then(function (res) {
+        if (!res.ok) throw new Error("Download failed (" + res.status + ") for part " + (i + 1) + " of " + DATA_PARTS + ".");
+        var copy = cache ? res.clone() : null;
+        return readAll(res, i).then(function (part) {
+          if (copy) cache.put(url, copy).catch(function () {});   // saving is best effort (private windows, full disks)
+          return part;
+        });
+      });
+    });
+  }
+  function getData() {
+    return openCache().then(function (cache) {
+      var parts = new Array(DATA_PARTS), next = 0;
+      function worker() {
+        if (next >= DATA_PARTS) return Promise.resolve();
+        var i = next++;
+        return getPart(cache, i).then(function (p) { parts[i] = p; return worker(); });
+      }
+      return Promise.all([worker(), worker(), worker()]).then(function () {
+        var blob = new Blob(parts, { type: "application/octet-stream" });
+        if (blob.size !== DATA_BYTES) {
+          if (cache) caches.delete(CACHE_NAME);
+          throw new Error("The download came out the wrong size. Reload the page to try again.");
+        }
+        return URL.createObjectURL(blob);
+      });
+    });
+  }
+
+  function loadScript(src) {
+    return new Promise(function (ok, bad) {
+      var s = document.createElement("script");
+      s.src = src; s.onload = ok; s.onerror = function () { bad(new Error("Could not load " + src)); };
+      document.body.appendChild(s);
+    });
+  }
+
+  status.textContent = "Downloading the game…";
+  Promise.all([getData(), loadScript("Build/" + NAME + ".loader.js?v=" + BUILD)]).then(function (r) {
+    var dataUrl = r[0];
+    status.textContent = "Starting the city…";
+    return createUnityInstance(canvas, {
+      dataUrl: dataUrl,
+      frameworkUrl: "Build/" + NAME + ".framework.js.unityweb?v=" + BUILD,
+      codeUrl: "Build/" + NAME + ".wasm.unityweb?v=" + BUILD,
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "VirtualStripes",
+      productName: "Shiesty VR Browser",
+      productVersion: "1.0",
+      matchWebGLToCanvasSize: true,
+      // The data comes from a one-off blob address, so Unity's own cache (keyed by address) must not keep a copy per visit.
+      cacheControl: function () { return "no-store"; },
+      showBanner: function (msg, type) { if (type === "error") fail(msg); else console.warn(msg); }
+    }, function (p) { setBar(0.9 + 0.1 * p); }).then(function (instance) {
+      URL.revokeObjectURL(dataUrl);
+      window.unityInstance = instance;
+      setBar(1);
+      status.textContent = "Ready.";
+      play.disabled = false;
+      play.textContent = "Play";
+      play.focus();
+      play.addEventListener("click", function () {
+        overlay.className = "hidden";
+        canvas.focus();
+        if (canvas.requestPointerLock) canvas.requestPointerLock();
+      });
+    });
+  }).catch(function (e) { fail(String(e && e.message ? e.message : e)); });
+})();
+</script>
+</body>
+</html>
