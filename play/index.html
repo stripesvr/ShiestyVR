@@ -46,12 +46,22 @@
     background:var(--lime); color:#1a1405; box-shadow:0 5px 0 #8f9a1d; }
   button:active:not(:disabled) { transform:translateY(3px); box-shadow:0 2px 0 #8f9a1d; }
   button:disabled { background:#3a2560; color:#8473a6; box-shadow:none; cursor:default; }
+  #entervr { margin-top:12px; background:var(--pink); color:#fff; box-shadow:0 5px 0 #a8326a; display:none; }
+  #entervr:active:not(:disabled) { box-shadow:0 2px 0 #a8326a; }
+  #entervr:disabled { background:#3a2560; color:#8473a6; box-shadow:none; }
+  #vrkeys { display:none; }
+  body.vr-ok #entervr { display:block; }
+  body.vr-ok #vrkeys { display:grid; }
+  #vrfloat { position:fixed; right:16px; bottom:16px; z-index:5; width:auto; padding:10px 18px; font-size:17px; border-radius:14px;
+    background:var(--pink); color:#fff; box-shadow:0 4px 0 #a8326a; display:none; }
+  body.vr-ok.playing #vrfloat { display:block; }
   .note { margin-top:14px; font-size:12.5px; color:var(--dim); line-height:1.5; }
   @media (max-width:540px) { .card { padding:20px; } h1 { font-size:25px; } .keys { font-size:13px; gap:6px 12px; } .top img { width:120px; } }
 </style>
 </head>
 <body>
 <canvas id="unity-canvas" tabindex="-1"></canvas>
+<button id="vrfloat">Enter VR</button>
 
 <div id="overlay">
   <div class="card">
@@ -77,7 +87,16 @@
       <b>Esc</b><span>Free the mouse (click the game to grab it again)</span>
     </div>
 
+    <h2 id="vrhead" hidden>In the headset</h2>
+    <div class="keys" id="vrkeys">
+      <b>Arms</b><span>Push off the ground and walls with your hands to move</span>
+      <b>Grip</b><span>Grab / let go</span>
+      <b>Trigger</b><span>Fire (empty hand: punch)</span>
+      <b>Left stick click</b><span>Menu (point with your right hand, trigger to press)</span>
+    </div>
+
     <button id="play" disabled>Loading&hellip;</button>
+    <button id="entervr" disabled>Enter VR</button>
     <div class="note">The first visit downloads about 320 MB; after that it starts from your browser's saved copy.
       Works best in Chrome, Edge or Firefox on a desktop PC. Phones and tablets are not supported.</div>
   </div>
@@ -87,8 +106,10 @@
 (function () {
   var NAME = "ShiestyVR-Browser";
   // The game data is split into parts because the site host caps single files at 100 MB. Bump BUILD when the files change.
-  var BUILD = "2026-11-11a";
-  var DATA_PARTS = 7, DATA_BYTES = 307175807;
+  var BUILD = "2026-11-11c";
+  // One build for desktop and headsets: the game's textures are stored in ASTC, which headsets use directly.
+  var DATA = { dir: "Build/", parts: 7, bytes: 307288612 };
+  var DATA_PARTS = DATA.parts, DATA_BYTES = DATA.bytes;
 
   var overlay = document.getElementById("overlay"), fill = document.getElementById("fill");
   var status = document.getElementById("status"), play = document.getElementById("play");
@@ -99,6 +120,11 @@
   function setBar(f) { fill.style.width = Math.max(0, Math.min(100, f * 100)).toFixed(1) + "%"; }
   function mb(n) { return Math.round(n / 1048576); }
 
+  // Browsers only allow VR (and saving the download) on secure pages.
+  if (location.protocol === "http:" && !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+    location.replace("https://" + location.host + location.pathname + location.search);
+    return;
+  }
   if (location.protocol === "file:") { fail("Browsers will not load the game straight from a file. Open it from the website."); return; }
   if (!window.WebAssembly) { fail("This browser has no WebAssembly support."); return; }
   if (!document.createElement("canvas").getContext("webgl2")) { fail("This browser or graphics driver has no WebGL 2 support."); return; }
@@ -119,7 +145,7 @@
   // ---- game data: fetch the parts (kept in Cache Storage between visits), join them into one blob ----
   var CACHE_NAME = "shiesty-play-" + BUILD;
   var loaded = new Array(DATA_PARTS).fill(0);
-  function partUrl(i) { return "Build/" + NAME + ".data.part" + (i < 10 ? "0" + i : i) + "?v=" + BUILD; }
+  function partUrl(i) { return DATA.dir + NAME + ".data.part" + (i < 10 ? "0" + i : i) + "?v=" + BUILD; }
   function onBytes() {
     var sum = 0; for (var i = 0; i < loaded.length; i++) sum += loaded[i];
     setBar(0.9 * sum / DATA_BYTES);
@@ -174,9 +200,20 @@
           if (cache) caches.delete(CACHE_NAME);
           throw new Error("The download came out the wrong size. Reload the page to try again.");
         }
-        return URL.createObjectURL(blob);
+        return inflate(blob).then(function (b) { return URL.createObjectURL(b); });
       });
     });
+  }
+  // The data is one gzip file. Unpack it here with the browser's own decoder: the loader's fallback does it in
+  // JavaScript on the main thread, which is slow and memory hungry on a headset. If this fails the loader still copes.
+  function inflate(blob) {
+    if (typeof DecompressionStream === "undefined" || !blob.stream) return Promise.resolve(blob);
+    if (!failed) status.textContent = "Unpacking the game…";
+    try {
+      return new Response(blob.stream().pipeThrough(new DecompressionStream("gzip"))).blob()
+        .then(function (b) { return b.size > blob.size ? b : blob; })
+        .catch(function () { return blob; });
+    } catch (e) { return Promise.resolve(blob); }
   }
 
   function loadScript(src) {
@@ -187,14 +224,31 @@
     });
   }
 
+  // ---- VR: the game reports whether this browser can start an immersive session (Quest Browser can)
+  var enterVr = document.getElementById("entervr"), vrFloat = document.getElementById("vrfloat");
+  document.addEventListener("onVRSupportedCheck", function (e) {
+    var ok = !!(e.detail && e.detail.supported);
+    document.body.classList.toggle("vr-ok", ok);
+    document.getElementById("vrhead").hidden = !ok;
+  });
+  function startVr() {
+    var u = window.unityInstance;
+    if (!u || !u.Module || !u.Module.WebXR || !u.Module.WebXR.toggleVR) return;
+    overlay.className = "hidden";
+    document.body.classList.add("playing");
+    u.Module.WebXR.toggleVR();
+  }
+  enterVr.addEventListener("click", startVr);
+  vrFloat.addEventListener("click", startVr);
+
   status.textContent = "Downloading the game…";
-  Promise.all([getData(), loadScript("Build/" + NAME + ".loader.js?v=" + BUILD)]).then(function (r) {
+  Promise.all([getData(), loadScript(DATA.dir + NAME + ".loader.js?v=" + BUILD)]).then(function (r) {
     var dataUrl = r[0];
     status.textContent = "Starting the city…";
     return createUnityInstance(canvas, {
       dataUrl: dataUrl,
-      frameworkUrl: "Build/" + NAME + ".framework.js.unityweb?v=" + BUILD,
-      codeUrl: "Build/" + NAME + ".wasm.unityweb?v=" + BUILD,
+      frameworkUrl: DATA.dir + NAME + ".framework.js.unityweb?v=" + BUILD,
+      codeUrl: DATA.dir + NAME + ".wasm.unityweb?v=" + BUILD,
       streamingAssetsUrl: "StreamingAssets",
       companyName: "VirtualStripes",
       productName: "Shiesty VR Browser",
@@ -209,10 +263,12 @@
       setBar(1);
       status.textContent = "Ready.";
       play.disabled = false;
+      enterVr.disabled = false;
       play.textContent = "Play";
       play.focus();
       play.addEventListener("click", function () {
         overlay.className = "hidden";
+        document.body.classList.add("playing");
         canvas.focus();
         if (canvas.requestPointerLock) canvas.requestPointerLock();
       });
