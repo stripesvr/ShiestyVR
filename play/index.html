@@ -77,7 +77,8 @@
 
     <h2>Controls</h2>
     <div class="keys">
-      <b>Mouse / WASD</b><span>Look and walk &middot; Shift sprint &middot; Space jump</span>
+      <b>Mouse / WASD</b><span>Camera and run &middot; Shift sprint &middot; Space jump (hold to keep jumping)</span>
+      <b>Mouse wheel</b><span>Zoom the camera &middot; all the way in is first person</span>
       <b>Left click</b><span>Fire (empty hand: punch)</span>
       <b>Right click</b><span>Grab / let go</span>
       <b>G</b><span>Pick up or drop a gun &middot; 1 2 3 belt slots</span>
@@ -106,9 +107,9 @@
 (function () {
   var NAME = "ShiestyVR-Browser";
   // The game data is split into parts because the site host caps single files at 100 MB. Bump BUILD when the files change.
-  var BUILD = "2026-11-11c";
+  var BUILD = "2026-11-11d";
   // One build for desktop and headsets: the game's textures are stored in ASTC, which headsets use directly.
-  var DATA = { dir: "Build/", parts: 7, bytes: 307288612 };
+  var DATA = { dir: "Build/", parts: 7, bytes: 307285849 };
   var DATA_PARTS = DATA.parts, DATA_BYTES = DATA.bytes;
 
   var overlay = document.getElementById("overlay"), fill = document.getElementById("fill");
@@ -254,6 +255,7 @@
       productName: "Shiesty VR Browser",
       productVersion: "1.0",
       matchWebGLToCanvasSize: true,
+      devicePixelRatio: 1,   // one game pixel per page pixel: high-DPI screens would otherwise render 4x the pixels
       // The data comes from a one-off blob address, so Unity's own cache (keyed by address) must not keep a copy per visit.
       cacheControl: function () { return "no-store"; },
       showBanner: function (msg, type) { if (type === "error") fail(msg); else console.warn(msg); }
