@@ -29,7 +29,7 @@
   <meta property="og:video:type" content="video/mp4">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Welcome to Shiesty – our VR game made entirely by Claude">
-  <meta name="twitter:description" content="Free-to-play open-world crime game for Meta Quest.">
+  <meta name="twitter:description" content="Free open-world crime game. Play in your browser or on Meta Quest.">
   <meta name="twitter:image" content="https://shiestyvr.com/assets/img/shiesty-key-art.jpg">
 
   <!-- Icons -->
@@ -37,16 +37,13 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 
-  <!-- View counter: URL of the Cloudflare Worker in /cloudflare-worker (see its README).
-       Leave empty and the counter stays hidden. -->
-  <meta name="shiesty-views-api" content="">
 
   <!-- Fonts & styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Lilita+One&family=Rubik:wght@400;500;700&display=swap">
   <link rel="preload" as="image" href="/assets/img/shiesty-key-art.webp" fetchpriority="high">
-  <link rel="stylesheet" href="/assets/css/style.css?v=20261109c">
+  <link rel="stylesheet" href="/assets/css/style.css?v=20261111a">
   <!-- Hide sections for the fade-in only while the site script is running; show everything if it fails to load. -->
   <script>document.documentElement.classList.add("js");setTimeout(function(){if(!window.SHIESTY_READY)document.documentElement.classList.remove("js")},2500)</script>
 
@@ -82,7 +79,7 @@
         "image": "https://shiestyvr.com/assets/img/shiesty-key-art.jpg",
         "logo": "https://shiestyvr.com/assets/img/shiesty-logo.png",
         "genre": ["Action", "Open world", "Crime", "Sandbox"],
-        "gamePlatform": ["Meta Quest 2", "Meta Quest 3", "Meta Quest 3S", "Meta Quest Pro"],
+        "gamePlatform": ["Web browser", "Meta Quest 2", "Meta Quest 3", "Meta Quest 3S", "Meta Quest Pro"],
         "applicationCategory": "Game",
         "operatingSystem": "Meta Horizon OS",
         "playMode": ["SinglePlayer", "MultiPlayer"],
@@ -119,6 +116,11 @@
             "@type": "Question",
             "name": "Is Shiesty free?",
             "acceptedAnswer": { "@type": "Answer", "text": "Yes. Shiesty is free to play. Download it from the Meta Horizon Store." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I play Shiesty without a VR headset?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. Play Shiesty free in your browser with keyboard and mouse at shiestyvr.com/play. No headset needed." }
           },
           {
             "@type": "Question",
@@ -171,7 +173,7 @@
         <a href="#screens">Screens</a>
         <a href="#faq">FAQ</a>
       </nav>
-      <a class="btn btn--small" data-confetti href="https://www.meta.com/experiences/shiesty/23961251736801166/" target="_blank" rel="noopener">Play free</a>
+      <a class="btn btn--small" data-confetti href="/play/">Play free</a>
     </div>
   </header>
 
@@ -188,7 +190,7 @@
       <div class="wrap hero__inner">
         <a class="pill" href="#vibes">
           <span class="pill__new">NEW</span>
-          <span>Vibecoded with Claude<span class="pill__more"> · Free on Meta Quest</span></span>
+          <span>Vibecoded with Claude<span class="pill__more"> · Play free in your browser</span></span>
           <span aria-hidden="true">→</span>
         </a>
 
@@ -200,14 +202,14 @@
         </h1>
 
         <p class="hero__lede">
-          An open-world crime game for Meta Quest. Rob the shops, steal a ride,
-          outrun the cops and pay the Crimelord, solo or with your crew.
+          An open-world crime game you can play free in your browser, or in VR on Meta Quest.
+          Rob the shops, steal a ride, outrun the cops and pay the Crimelord.
         </p>
 
         <div class="hero__ctas">
-          <a class="btn btn--glow" data-confetti href="https://www.meta.com/experiences/shiesty/23961251736801166/" target="_blank" rel="noopener">
-            <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M3 8.5A3.5 3.5 0 0 1 6.5 5h11A3.5 3.5 0 0 1 21 8.5v5a3.5 3.5 0 0 1-3.5 3.5h-2.2a2 2 0 0 1-1.7-.95l-.9-1.45a.8.8 0 0 0-1.4 0l-.9 1.45A2 2 0 0 1 8.7 17H6.5A3.5 3.5 0 0 1 3 13.5v-5Zm4.5 1a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/></svg>
-            Play free on Meta Quest
+          <a class="btn btn--glow" data-confetti href="/play/">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" fill-rule="evenodd" d="M4 3.5h16A2.5 2.5 0 0 1 22.5 6v12a2.5 2.5 0 0 1-2.5 2.5H4A2.5 2.5 0 0 1 1.5 18V6A2.5 2.5 0 0 1 4 3.5ZM3.5 8.5V18c0 .3.2.5.5.5h16c.3 0 .5-.2.5-.5V8.5h-17ZM10 10.5l5.5 3.25L10 17v-6.5Z"/></svg>
+            Play free in browser
           </a>
           <a class="btn btn--ghost" href="#trailer">
             <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
@@ -443,6 +445,10 @@
             <p>Yes. Shiesty is free to play. <a href="https://www.meta.com/experiences/shiesty/23961251736801166/" target="_blank" rel="noopener">Download it from the Meta Horizon Store</a>.</p>
           </details>
           <details class="glass">
+            <summary>Can I play without a VR headset?</summary>
+            <p>Yes. <a href="/play/">Play Shiesty free in your browser</a> with keyboard and mouse. No headset needed.</p>
+          </details>
+          <details class="glass">
             <summary>Which headsets can play Shiesty?</summary>
             <p>Meta Quest 2, Meta Quest 3, Meta Quest 3S and Meta Quest Pro.</p>
           </details>
@@ -464,10 +470,10 @@
       <div class="wrap final__inner reveal">
         <img class="final__logo" src="/assets/img/shiesty-logo.webp" alt="Shiesty" width="617" height="303" loading="lazy">
         <h2 id="final-title" class="final__title">The city’s waiting.</h2>
-        <p>Free on Meta Quest. Bring your crew.</p>
-        <a class="btn btn--big btn--glow" data-confetti href="https://www.meta.com/experiences/shiesty/23961251736801166/" target="_blank" rel="noopener">
-          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M3 8.5A3.5 3.5 0 0 1 6.5 5h11A3.5 3.5 0 0 1 21 8.5v5a3.5 3.5 0 0 1-3.5 3.5h-2.2a2 2 0 0 1-1.7-.95l-.9-1.45a.8.8 0 0 0-1.4 0l-.9 1.45A2 2 0 0 1 8.7 17H6.5A3.5 3.5 0 0 1 3 13.5v-5Zm4.5 1a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/></svg>
-          Get Shiesty free
+        <p>Play free in your browser. No headset needed.</p>
+        <a class="btn btn--big btn--glow" data-confetti href="/play/">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" fill-rule="evenodd" d="M4 3.5h16A2.5 2.5 0 0 1 22.5 6v12a2.5 2.5 0 0 1-2.5 2.5H4A2.5 2.5 0 0 1 1.5 18V6A2.5 2.5 0 0 1 4 3.5ZM3.5 8.5V18c0 .3.2.5.5.5h16c.3 0 .5-.2.5-.5V8.5h-17ZM10 10.5l5.5 3.25L10 17v-6.5Z"/></svg>
+          Play free in browser
         </a>
       </div>
     </section>
@@ -478,13 +484,14 @@
       <img src="/assets/img/shiesty-logo.webp" alt="Shiesty" width="617" height="303" loading="lazy" class="footer__logo">
       <p>Here at Squido Studios, we vibecode all of our games! ✨</p>
       <nav class="footer__links" aria-label="Footer">
+        <a href="/play/">Play in browser</a>
         <a href="https://www.meta.com/experiences/shiesty/23961251736801166/" target="_blank" rel="noopener">Meta Horizon Store</a>
         <a href="#trailer">Trailer</a>
         <a href="#features">Features</a>
         <a href="#faq">FAQ</a>
       </nav>
       <p class="footer__small">© <span id="year">2026</span> Squido Studios. Meta Quest is a trademark of Meta Platforms, Inc.</p>
-      <p class="views" data-views hidden><strong data-views-count>0</strong> site views</p>
+      <p class="views"><img src="https://hits.sh/shiestyvr.com.svg?view=total&amp;style=flat-square&amp;label=site%20views&amp;color=241441&amp;labelColor=1b0e30" alt="Site views" height="20" decoding="async" referrerpolicy="no-referrer-when-downgrade"></p>
     </div>
   </footer>
 
@@ -495,6 +502,6 @@
     <img alt="">
   </dialog>
 
-  <script src="/assets/js/main.js?v=20261109c" defer></script>
+  <script src="/assets/js/main.js?v=20261111a" defer></script>
 </body>
 </html>
