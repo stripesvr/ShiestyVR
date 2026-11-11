@@ -3,35 +3,10 @@ window.SHIESTY_READY = true;
 var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 var FINE_POINTER = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-// ---------- View counter (Cloudflare Worker in /cloudflare-worker) ----------
+// ---------- Footer year ----------
 (function () {
   var year = document.getElementById("year");
   if (year) year.textContent = new Date().getFullYear();
-
-  var meta = document.querySelector('meta[name="shiesty-views-api"]');
-  var api = meta ? meta.content.trim().replace(/\/+$/, "") : "";
-  var boxes = document.querySelectorAll("[data-views]");
-  if (!api || !boxes.length || !window.fetch) return;
-
-  // Count each visitor once per browser session; later page loads just read the total.
-  var KEY = "shiesty-viewed";
-  var counted = false;
-  try { counted = sessionStorage.getItem(KEY) === "1"; } catch (e) {}
-
-  var req = counted
-    ? fetch(api + "/count", { cache: "no-store" })
-    : fetch(api + "/hit", { method: "POST", cache: "no-store" });
-
-  req
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function (data) {
-      var total = Number(data && data.count);
-      if (!isFinite(total) || total < 0) return;
-      try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
-      document.querySelectorAll("[data-views-count]").forEach(function (el) { el.textContent = total.toLocaleString(); });
-      boxes.forEach(function (b) { b.hidden = false; });
-    })
-    .catch(function () { /* counter stays hidden if the Worker is unreachable */ });
 })();
 
 // ---------- Scroll progress bar ----------
